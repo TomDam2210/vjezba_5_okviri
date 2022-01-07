@@ -18,7 +18,9 @@ let poruke = [
   ]
   
   const express = require('express')
+  const cors = require('cors')
   const app = express()
+  app.use(cors())
   app.use(express.json())
     
   app.get('/', (req, res) =>{
@@ -45,6 +47,16 @@ let poruke = [
     poruke = poruke.filter(p => p.id !== id)
   
     res.status(204).end()
+  })
+
+  app.put('/api/poruke/:id', (req,res) => {
+    const podatak = req.body
+    const id = Number(req.params.id)
+
+    console.log("Promjena važnosti poruke sa ID", id)
+
+    poruke.map(p => p.id !== id ? p : podatak)
+    res.json(podatak)
   })
   
   app.post('/api/poruke', (req, res) => {
