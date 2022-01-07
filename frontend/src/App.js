@@ -20,6 +20,14 @@ const App = (props) => {
         postaviPoruke(poruke.map(p => p.id !== id ? p: response.data))
     })
   }
+
+  const brisiPoruku = (id) => {
+    axios.delete(`http://localhost:3001/api/poruke/${id}`)
+      .then(response => {
+        console.log(response);
+        postaviPoruke(poruke.filter(p => p.id !== id))
+      })
+  }
    
 
   const porukeZaIspis = ispisSve
@@ -69,7 +77,9 @@ const App = (props) => {
           <Poruka 
             key={p.id} 
             poruka={p} 
-            promjenaVaznosti={ () => promjenaVaznostiPoruke(p.id)} />
+            promjenaVaznosti={ () => promjenaVaznostiPoruke(p.id)}
+            brisiPoruku={ () => brisiPoruku(p.id)} 
+          />
         )}        
       </ul>
       <form onSubmit={novaPoruka}>
